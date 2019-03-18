@@ -1,0 +1,29 @@
+---
+title: "Diesel Receipt Analysis"
+output:
+  html_document:
+    df_print: paged
+---
+
+First read in the pdf file which was created using "Adobe Scan" app.
+
+```{r}
+library(tidyverse)
+library(pdftools)
+```
+
+The scanned pdf file was already run through an OCR scanner.
+
+```{r}
+txt <- pdf_text("/Users/hujo/diesel_consumption/Scan 18.03.2019.pdf")%>% str_split("\n") %>% .[[1]]
+txt 
+```
+
+
+```{r}
+txt[str_which(txt,"Datum")]
+txt[str_which(txt,"TOTAL")]
+txt[str_which(txt,"Liter")]
+```
+
+
