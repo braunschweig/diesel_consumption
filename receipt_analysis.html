@@ -127,7 +127,6 @@ $(document).ready(function () {
 </div>
 
 
-<p>First read in the pdf file which was created using “Adobe Scan” app.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>## -- Attaching packages ---------------------------- tidyverse 1.2.1 --</code></pre>
 <pre><code>## &lt;U+221A&gt; ggplot2 3.1.0     &lt;U+221A&gt; purrr   0.2.5
@@ -138,8 +137,8 @@ $(document).ready(function () {
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(pdftools)</code></pre>
-<p>The scanned pdf file was already run through an OCR scanner.</p>
-<pre class="r"><code>txt &lt;- pdf_text(&quot;/Users/hujo/diesel_consumption/Scan 18.03.2019.pdf&quot;)%&gt;% str_split(&quot;\n&quot;) %&gt;% .[[1]]
+<p>First read in the pdf file which was created using “Adobe Scan” app. The scanned pdf file was already run through an OCR scanner.</p>
+<pre class="r"><code>txt &lt;- pdf_text(&quot;~/diesel_consumption/Scan 18.03.2019.pdf&quot;)%&gt;% str_split(&quot;\n&quot;) %&gt;% .[[1]]
 txt </code></pre>
 <pre><code>##  [1] &quot;       1--t L~M . Tar&lt;U+00B7&gt;-lk&quot;                               
 ##  [2] &quot;                      . &lt;U+00B7&gt;&lt;U+00B7&gt;       ~.) -e l l t:.&quot;  

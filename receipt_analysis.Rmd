@@ -5,17 +5,17 @@ output:
     df_print: paged
 ---
 
-First read in the pdf file which was created using "Adobe Scan" app.
 
 ```{r}
 library(tidyverse)
 library(pdftools)
 ```
 
+First read in the pdf file which was created using "Adobe Scan" app.
 The scanned pdf file was already run through an OCR scanner.
 
 ```{r}
-txt <- pdf_text("/Users/hujo/diesel_consumption/Scan 18.03.2019.pdf")%>% str_split("\n") %>% .[[1]]
+txt <- pdf_text("~/diesel_consumption/Scan 18.03.2019.pdf")%>% str_split("\n") %>% .[[1]]
 txt 
 ```
 
