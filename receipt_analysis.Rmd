@@ -12,7 +12,7 @@ library(pdftools)
 ```
 
 First read in the pdf file which was created using "Adobe Scan" app.
-The scanned pdf file was already run through an OCR scanner.
+The scanned pdf file was already run through an OCR scanner in the app.
 
 ```{r}
 txt <- pdf_text("~/diesel_consumption/Scan 18.03.2019.pdf")%>% str_split("\n") %>% .[[1]]
