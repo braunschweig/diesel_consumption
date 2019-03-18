@@ -1,4 +1,4 @@
-# diesel consumption analysis
+# diesel_consumption
 
 I own a VW Golf 7 TDI and here I analyse my fuel receipts.
 
