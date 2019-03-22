@@ -137,10 +137,16 @@ $(document).ready(function () {
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(pdftools)</code></pre>
-<p>First read in the pdf file which was created using “Adobe Scan” app. The scanned pdf file was already run through an OCR scanner.</p>
-<pre class="r"><code>txt &lt;- pdf_text(&quot;~/diesel_consumption/Scan 18.03.2019.pdf&quot;)%&gt;% str_split(&quot;\n&quot;) %&gt;% .[[1]]
-txt </code></pre>
-<pre><code>##  [1] &quot;       1--t L~M . Tar&lt;U+00B7&gt;-lk&quot;                               
+<p>First read in the pdf file which was created using “Adobe Scan” app. The scanned pdf file was already run through an OCR scanner in the app.</p>
+<pre class="r"><code>txt &lt;- pdf_text(&quot;~/diesel_consumption/Scan 18.03.2019.pdf&quot;)%&gt;% str_split(&quot;\n&quot;) #%&gt;% .[[1]]
+length(txt)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>#txt </code></pre>
+<pre class="r"><code>txt[str_which(txt,&quot;Datum&quot;)]</code></pre>
+<pre><code>## Warning in stri_detect_regex(string, pattern, opts_regex = opts(pattern)):
+## argument is not an atomic vector; coercing</code></pre>
+<pre><code>## [[1]]
+##  [1] &quot;       1--t L~M . Tar&lt;U+00B7&gt;-lk&quot;                               
 ##  [2] &quot;                      . &lt;U+00B7&gt;&lt;U+00B7&gt;       ~.) -e l l t:.&quot;  
 ##  [3] &quot;                                &lt;U+2022&gt;C'&lt;U+00B7&gt;t&quot;            
 ##  [4] &quot;                  Al1 Can Keceyapan&quot;                            
@@ -183,13 +189,173 @@ txt </code></pre>
 ## [41] &quot;0694-1-1426785&quot;                                                 
 ## [42] &quot;&lt;U+00BB&gt;A101~ 11 n1.19 07:26 Frau Gbbel                    K.OOOl&quot;
 ## [43] &quot;&quot;</code></pre>
-<pre class="r"><code>txt[str_which(txt,&quot;Datum&quot;)]</code></pre>
-<pre><code>## [1] &quot; Datum                                      13. 03. 2019&quot;</code></pre>
 <pre class="r"><code>txt[str_which(txt,&quot;TOTAL&quot;)]</code></pre>
-<pre><code>## [1] &quot;   TOTAL                              59,60 EUR&quot;</code></pre>
+<pre><code>## Warning in stri_detect_regex(string, pattern, opts_regex = opts(pattern)):
+## argument is not an atomic vector; coercing</code></pre>
+<pre><code>## [[1]]
+##  [1] &quot;       1--t L~M . Tar&lt;U+00B7&gt;-lk&quot;                               
+##  [2] &quot;                      . &lt;U+00B7&gt;&lt;U+00B7&gt;       ~.) -e l l t:.&quot;  
+##  [3] &quot;                                &lt;U+2022&gt;C'&lt;U+00B7&gt;t&quot;            
+##  [4] &quot;                  Al1 Can Keceyapan&quot;                            
+##  [5] &quot;                  Im M   oorbusehe 103&quot;                         
+##  [6] &quot;                . . 381 62 Crern l ingen&quot;                       
+##  [7] &quot;               lel . : 05306 / 9309007&quot;                         
+##  [8] &quot;                 Fax: 05306 / 9309077&quot;                          
+##  [9] &quot;              Steue1 &lt;U+00B7&gt;&lt;U+00B7&gt;Nr .: 13/ 121/12376&quot;       
+## [10] &quot;                      1&quot;                                        
+## [11] &quot;               www .hem-tankstell e.de&quot;                         
+## [12] &quot;*                45 ,88 Liter S&lt;U+00C4&gt;ULENNUMMER 7 *&quot;          
+## [13] &quot;*Diesel                               A     ,.J9,&quot;              
+## [14] &quot;                                             c: &lt;U+00B7&gt; 60 EUH*&quot;
+## [15] &quot;  1}299 EUR/ Liter-&quot;                                            
+## [16] &quot;             + KUN DE NB E L E G+&quot;                              
+## [17] &quot;                   HEM -Cremli ngen 694&quot;                        
+## [18] &quot;                   Im Moorbusehe 103&quot;                           
+## [19] &quot;      .              381 92 Creml ingen&quot;                        
+## [20] &quot;Term1nalnummer                                   74005586&quot;      
+## [21] &quot; Datum                                      13. 03. 2019&quot;       
+## [22] &quot; Uhrze it                                        07:25:44&quot;      
+## [23] &quot; Be leg-Nr.                                          8556&quot;      
+## [24] &quot; Transakt ions-Nr .                 _               23121&quot;      
+## [25] &quot;                        Kartenzahlung&quot;                          
+## [26] &quot;                           girocard&quot;                            
+## [27] &quot; Betrag                                        59.60 EUR&quot;       
+## [28] &quot; Karte                             ###############4007&quot;         
+## [29] &quot; Kartenfolgenummer                                     00&quot;      
+## [30] &quot; EMV-AID                         A0000003591010028001&quot;          
+## [31] &quot; Genehmigungs-Nr.                                  607034&quot;      
+## [32] &quot; EMV-DATA:&quot;                                                     
+## [33] &quot; 901290000230300000000000E80001/0000000000/&quot;                    
+## [34] &quot; E800/A000000359/440302&quot;                                        
+## [35] &quot;                     Zahlung erfolgt&quot;                           
+## [36] &quot;                          girocard             59 ,50 EUR&quot;      
+## [37] &quot;   TOTAL                              59,60 EUR&quot;                
+## [38] &quot;                                                 9,52 EUR&quot;      
+## [39] &quot;  MWST 19,00% A                                 59,60 EUR&quot;      
+## [40] &quot;  NETTO           50,08 EUR BRUTTO&quot;                             
+## [41] &quot;0694-1-1426785&quot;                                                 
+## [42] &quot;&lt;U+00BB&gt;A101~ 11 n1.19 07:26 Frau Gbbel                    K.OOOl&quot;
+## [43] &quot;&quot;</code></pre>
 <pre class="r"><code>txt[str_which(txt,&quot;Liter&quot;)]</code></pre>
-<pre><code>## [1] &quot;*                45 ,88 Liter S&lt;U+00C4&gt;ULENNUMMER 7 *&quot;
-## [2] &quot;  1}299 EUR/ Liter-&quot;</code></pre>
+<pre><code>## Warning in stri_detect_regex(string, pattern, opts_regex = opts(pattern)):
+## argument is not an atomic vector; coercing</code></pre>
+<pre><code>## [[1]]
+##  [1] &quot;       1--t L~M . Tar&lt;U+00B7&gt;-lk&quot;                               
+##  [2] &quot;                      . &lt;U+00B7&gt;&lt;U+00B7&gt;       ~.) -e l l t:.&quot;  
+##  [3] &quot;                                &lt;U+2022&gt;C'&lt;U+00B7&gt;t&quot;            
+##  [4] &quot;                  Al1 Can Keceyapan&quot;                            
+##  [5] &quot;                  Im M   oorbusehe 103&quot;                         
+##  [6] &quot;                . . 381 62 Crern l ingen&quot;                       
+##  [7] &quot;               lel . : 05306 / 9309007&quot;                         
+##  [8] &quot;                 Fax: 05306 / 9309077&quot;                          
+##  [9] &quot;              Steue1 &lt;U+00B7&gt;&lt;U+00B7&gt;Nr .: 13/ 121/12376&quot;       
+## [10] &quot;                      1&quot;                                        
+## [11] &quot;               www .hem-tankstell e.de&quot;                         
+## [12] &quot;*                45 ,88 Liter S&lt;U+00C4&gt;ULENNUMMER 7 *&quot;          
+## [13] &quot;*Diesel                               A     ,.J9,&quot;              
+## [14] &quot;                                             c: &lt;U+00B7&gt; 60 EUH*&quot;
+## [15] &quot;  1}299 EUR/ Liter-&quot;                                            
+## [16] &quot;             + KUN DE NB E L E G+&quot;                              
+## [17] &quot;                   HEM -Cremli ngen 694&quot;                        
+## [18] &quot;                   Im Moorbusehe 103&quot;                           
+## [19] &quot;      .              381 92 Creml ingen&quot;                        
+## [20] &quot;Term1nalnummer                                   74005586&quot;      
+## [21] &quot; Datum                                      13. 03. 2019&quot;       
+## [22] &quot; Uhrze it                                        07:25:44&quot;      
+## [23] &quot; Be leg-Nr.                                          8556&quot;      
+## [24] &quot; Transakt ions-Nr .                 _               23121&quot;      
+## [25] &quot;                        Kartenzahlung&quot;                          
+## [26] &quot;                           girocard&quot;                            
+## [27] &quot; Betrag                                        59.60 EUR&quot;       
+## [28] &quot; Karte                             ###############4007&quot;         
+## [29] &quot; Kartenfolgenummer                                     00&quot;      
+## [30] &quot; EMV-AID                         A0000003591010028001&quot;          
+## [31] &quot; Genehmigungs-Nr.                                  607034&quot;      
+## [32] &quot; EMV-DATA:&quot;                                                     
+## [33] &quot; 901290000230300000000000E80001/0000000000/&quot;                    
+## [34] &quot; E800/A000000359/440302&quot;                                        
+## [35] &quot;                     Zahlung erfolgt&quot;                           
+## [36] &quot;                          girocard             59 ,50 EUR&quot;      
+## [37] &quot;   TOTAL                              59,60 EUR&quot;                
+## [38] &quot;                                                 9,52 EUR&quot;      
+## [39] &quot;  MWST 19,00% A                                 59,60 EUR&quot;      
+## [40] &quot;  NETTO           50,08 EUR BRUTTO&quot;                             
+## [41] &quot;0694-1-1426785&quot;                                                 
+## [42] &quot;&lt;U+00BB&gt;A101~ 11 n1.19 07:26 Frau Gbbel                    K.OOOl&quot;
+## [43] &quot;&quot;</code></pre>
+<pre class="r"><code>txt &lt;- pdf_text(&quot;~/diesel_consumption/Scan 13.03.2019 (2).pdf&quot;) %&gt;% str_split(&quot;\n&quot;)# %&gt;% .[[1]]
+length(txt)</code></pre>
+<pre><code>## [1] 11</code></pre>
+<pre class="r"><code>txt &lt;- pdf_text(&quot;~/diesel_consumption/Scan 13.03.2019 (1).pdf&quot;) %&gt;% str_split(&quot;\n&quot;) 
+length(txt)</code></pre>
+<pre><code>## [1] 23</code></pre>
+<pre class="r"><code>#txt %&gt;% .[[1]]</code></pre>
+<pre class="r"><code>txt &lt;- pdf_text(&quot;~/diesel_consumption/Scan 13.03.2019 (3).pdf&quot;) %&gt;% str_split(&quot;\n&quot;) 
+length(txt)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>#txt %&gt;% .[[1]]</code></pre>
+<pre class="r"><code>txt &lt;- pdf_text(&quot;~/diesel_consumption/Scan 29.09.2018 (2).pdf&quot;) %&gt;% str_split(&quot;\n&quot;) 
+length(txt)</code></pre>
+<pre><code>## [1] 25</code></pre>
+<pre class="r"><code>#%&gt;% .[[1]]
+#txt </code></pre>
+<pre class="r"><code>txt &lt;- pdf_text(&quot;~/diesel_consumption/Scan 29.09.2018 (1).pdf&quot;) %&gt;% str_split(&quot;\n&quot;) 
+length(txt)</code></pre>
+<pre><code>## [1] 6</code></pre>
+<pre class="r"><code>#%&gt;% .[[1]]
+#txt </code></pre>
+<pre class="r"><code>txt &lt;- pdf_text(&quot;~/diesel_consumption/Scan 29.09.2018.pdf&quot;) %&gt;% str_split(&quot;\n&quot;) 
+length(txt)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>#%&gt;% .[[1]]
+#txt </code></pre>
+<pre class="r"><code>txt &lt;- pdf_text(&quot;~/diesel_consumption/Tankprotokoll.pdf&quot;) %&gt;% str_split(&quot;\n&quot;) %&gt;% .[[1]]
+txt </code></pre>
+<pre><code>##  [1] &quot;cdatum   betrag     liter    preis    tankstelle       year month day datum&quot;    
+##  [2] &quot;20170929       47.7     43.8    1.089 jet              2017 09    29   20170929&quot;
+##  [3] &quot;20170830      46.38     43.8    1.059 hem              2017 08    30   20170830&quot;
+##  [4] &quot;20170814      48.47    46.21    1.049 jet              2017 08    14   20170814&quot;
+##  [5] &quot;20170712      45.72    43.17    1.059 hem              2017 07    12   20170712&quot;
+##  [6] &quot;20170626      38.16    36.38    1.049 hem              2017 06    26   20170626&quot;
+##  [7] &quot;20170614      48.74    44.76    1.089 shell            2017 06    14   20170614&quot;
+##  [8] &quot;20170516      48.63    45.92    1.059 hem              2017 05    16   20170516&quot;
+##  [9] &quot;20170304      42.48    39.01    1.089 hem              2017 03    04   20170304&quot;
+## [10] &quot;20170221       49.1    44.68    1.099 hem              2017 02    21   20170221&quot;
+## [11] &quot;20170209      49.73    44.05    1.129 aral             2017 02    09   20170209&quot;
+## [12] &quot;20170128      28.55    26.46    1.079 hem              2017 01    28   20170128&quot;
+## [13] &quot;20170120      44.69    39.94    1.119 hem              2017 01    20   20170120&quot;
+## [14] &quot;20170101      48.09    43.36    1.109 hem              2017 01    01   20170101&quot;
+## [15] &quot;20161216      46.47    43.47    1.069 hem              2016 12    16   20161216&quot;
+## [16] &quot;20161206       44.5    41.24    1.079 hem              2016 12    06   20161206&quot;
+## [17] &quot;20161115      37.59    36.18    1.039 hem              2016 11    15   20161115&quot;
+## [18] &quot;20161029      42.02    39.68    1.059 cleancar         2016 10    29   20161029&quot;
+## [19] &quot;20161021       40.6    36.28    1.119 aral             2016 10    21   20161021&quot;
+## [20] &quot;20161016      44.94    42.44    1.059 total            2016 10    16   20161016&quot;
+## [21] &quot;20161007      48.63    44.66    1.089 hem              2016 10    07   20161007&quot;
+## [22] &quot;20161005         12    10.72    1.119 shell            2016 10    05   20161005&quot;
+## [23] &quot;20160924      46.45    45.14    1.029 hem              2016 09    24   20160924&quot;
+## [24] &quot;20160831      48.14    45.03    1.069 aral             2016 08    31   20160831&quot;
+## [25] &quot;20160817      32.56    32.59    0.999 hem              2016 08    17   20160817&quot;
+## [26] &quot;20160806      18.12    18.32    0.989 hem              2016 08    06   20160806&quot;
+## [27] &quot;20160801      24.58    24.36    1.009 aral             2016 08    01   20160801&quot;
+## [28] &quot;20160725      40.55    39.41    1.029 star             2016 07    25   20160725&quot;
+## [29] &quot;20160630      50.29    45.35    1.109 hem              2016 06    30   20160630&quot;
+## [30] &quot;20160614      35.85    35.18    1.019 hem              2016 06    14   20160614&quot;
+## [31] &quot;20160527      43.04    41.83    1.029 hem              2016 05    27   20160527&quot;
+## [32] &quot;20160517      37.61    37.65    0.999 hem              2016 05    17   20160517&quot;
+## [33] &quot;20160507      27.58    28.76    0.959 hem              2016 05    07   20160507&quot;
+## [34] &quot;20160428      45.43    43.31    1.049 hem              2016 04    28   20160428&quot;
+## [35] &quot;20160416      24.05    25.08    0.959 hem              2016 04    16   20160416&quot;
+## [36] &quot;20160409      27.44    28.61    0.959 hem              2016 04    09   20160409&quot;
+## [37] &quot;20160403      20.88    21.11    0.989 aral             2016 04    03   20160403&quot;
+## [38] &quot;20160329      35.55    35.59    0.999 hem              2016 03    29   20160329&quot;
+## [39] &quot;20160314      44.12    44.61    0.989 hem              2016 03    14   20160314&quot;
+## [40] &quot;20160312      25.78     26.6    0.969 hem              2016 03    12   20160312&quot;
+## [41] &quot;20160305      37.27    38.86    0.959 hem              2016 03    05   20160305&quot;
+## [42] &quot;20160220      33.58    36.15    0.929 hem              2016 02    20   20160220&quot;
+## [43] &quot;20160213      24.24    25.81    0.939 total            2016 02    13   20160213&quot;
+## [44] &quot;20160212      24.76       21    1.179 bat rhynern nord 2016 02    12   20160212&quot;
+## [45] &quot;&quot;</code></pre>
 
 
 

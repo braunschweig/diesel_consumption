@@ -15,8 +15,9 @@ First read in the pdf file which was created using "Adobe Scan" app.
 The scanned pdf file was already run through an OCR scanner in the app.
 
 ```{r}
-txt <- pdf_text("~/diesel_consumption/Scan 18.03.2019.pdf")%>% str_split("\n") %>% .[[1]]
-txt 
+txt <- pdf_text("~/diesel_consumption/Scan 18.03.2019.pdf")%>% str_split("\n") #%>% .[[1]]
+length(txt)
+#txt 
 ```
 
 
@@ -26,4 +27,46 @@ txt[str_which(txt,"TOTAL")]
 txt[str_which(txt,"Liter")]
 ```
 
+```{r}
+txt <- pdf_text("~/diesel_consumption/Scan 13.03.2019 (2).pdf") %>% str_split("\n")# %>% .[[1]]
+length(txt)
+```
+
+```{r}
+txt <- pdf_text("~/diesel_consumption/Scan 13.03.2019 (1).pdf") %>% str_split("\n") 
+length(txt)
+#txt %>% .[[1]]
+```
+```{r}
+txt <- pdf_text("~/diesel_consumption/Scan 13.03.2019 (3).pdf") %>% str_split("\n") 
+length(txt)
+#txt %>% .[[1]]
+```
+
+```{r}
+txt <- pdf_text("~/diesel_consumption/Scan 29.09.2018 (2).pdf") %>% str_split("\n") 
+length(txt)
+#%>% .[[1]]
+#txt 
+```
+
+```{r}
+txt <- pdf_text("~/diesel_consumption/Scan 29.09.2018 (1).pdf") %>% str_split("\n") 
+length(txt)
+#%>% .[[1]]
+#txt 
+```
+
+```{r}
+txt <- pdf_text("~/diesel_consumption/Scan 29.09.2018.pdf") %>% str_split("\n") 
+length(txt)
+#%>% .[[1]]
+#txt 
+```
+
+
+```{r}
+txt <- pdf_text("~/diesel_consumption/Tankprotokoll.pdf") %>% str_split("\n") %>% .[[1]]
+txt 
+```
 
