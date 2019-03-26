@@ -5,6 +5,37 @@ output:
     df_print: paged
 ---
 
+example
+```{r}
+library(tidyverse)
+library(purrr)
+library(pdftools)
+
+fn <- system.file("extdata", "RD-Mortality-Report_2015-18-180531.pdf", package="dslabs")
+tab <- map_df(str_split(pdf_text(fn), "\n"), function(s){
+  s <- str_trim(s)
+  header_index <- str_which(s, "2015")[1]
+  tmp <- str_split(s[header_index], "\\s+", simplify = TRUE)
+  month <- tmp[1]
+  header <- tmp[-1]
+  tail_index  <- str_which(s, "Total")
+  n <- str_count(s, "\\d+")
+  out <- c(1:header_index, which(n==1), which(n>=28), tail_index:length(s))
+  s[-out] %>%
+    str_remove_all("[^\\d\\s]") %>%
+    str_trim() %>%
+    str_split_fixed("\\s+", n = 6) %>%
+    .[,1:5] %>%
+    as_data_frame() %>% 
+    setNames(c("day", header)) %>%
+    mutate(month = month,
+           day = as.numeric(day)) %>%
+    gather(year, deaths, -c(day, month)) %>%
+    mutate(deaths = as.numeric(deaths))
+})
+tab
+```
+
 
 ```{r}
 library(tidyverse)
@@ -22,6 +53,7 @@ length(txt)
 
 
 ```{r}
+txt <- txt %>% .[[1]]
 txt[str_which(txt,"Datum")]
 txt[str_which(txt,"TOTAL")]
 txt[str_which(txt,"Liter")]
@@ -68,5 +100,10 @@ length(txt)
 ```{r}
 txt <- pdf_text("~/diesel_consumption/Tankprotokoll.pdf") %>% str_split("\n") %>% .[[1]]
 txt 
+```
+
+```{r}
+txt <- pdf_text("~/diesel_consumption/Scan 26.03.2019.pdf") %>% str_split("\n") 
+length(txt)
 ```
 
