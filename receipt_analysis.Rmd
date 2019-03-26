@@ -10,9 +10,41 @@ example
 library(tidyverse)
 library(purrr)
 library(pdftools)
+```
 
+```{r}
 fn <- system.file("extdata", "RD-Mortality-Report_2015-18-180531.pdf", package="dslabs")
-tab <- map_df(str_split(pdf_text(fn), "\n"), function(s){
+txt <- str_split(pdf_text(fn), "\n")
+```
+
+Get a single page for a single year, here "2017".
+```{r}
+s <- txt %>% .[[9]]
+s <- str_trim(s)
+  header_index <- str_which(s, "2015")[1]
+  tmp <- str_split(s[header_index], "\\s+", simplify = TRUE)
+  month <- tmp[1]
+  header <- tmp[-1]
+  tail_index  <- str_which(s, "Total")
+  n <- str_count(s, "\\d+")
+  out <- c(1:header_index, which(n==1), which(n>=28), tail_index:length(s))
+  s[-out] %>%
+    str_remove_all("[^\\d\\s]") %>%
+    str_trim() %>%
+    str_split_fixed("\\s+", n = 6) %>%
+    .[,1:5] %>%
+    as_data_frame() %>% 
+    setNames(c("day", header)) %>%
+    mutate(month = month,
+           day = as.numeric(day)) %>%
+    gather(year, deaths, -c(day, month)) %>%
+    mutate(deaths = as.numeric(deaths)) %>% 
+    filter(year==2017)
+```
+
+Get all pages together.
+```{r}
+tab <- map_df(txt, function(s){
   s <- str_trim(s)
   header_index <- str_which(s, "2015")[1]
   tmp <- str_split(s[header_index], "\\s+", simplify = TRUE)
@@ -37,6 +69,7 @@ tab
 ```
 
 
+
 ```{r}
 library(tidyverse)
 library(pdftools)
@@ -48,20 +81,21 @@ The scanned pdf file was already run through an OCR scanner in the app.
 ```{r}
 txt <- pdf_text("~/diesel_consumption/Scan 18.03.2019.pdf")%>% str_split("\n") #%>% .[[1]]
 length(txt)
-#txt 
-```
-
-
-```{r}
 txt <- txt %>% .[[1]]
 txt[str_which(txt,"Datum")]
 txt[str_which(txt,"TOTAL")]
 txt[str_which(txt,"Liter")]
+txt[str_which(txt,"\\d{2}\\s?\\.\\s?\\d{2}\\s?\\.\\s?\\d{4}")] 
 ```
 
 ```{r}
 txt <- pdf_text("~/diesel_consumption/Scan 13.03.2019 (2).pdf") %>% str_split("\n")# %>% .[[1]]
 length(txt)
+txt <- txt %>% .[[1]]
+#txt[str_which(txt,"Datum")]
+#txt[str_which(txt,"EUR")]
+#txt[str_which(txt,"EUR/Liter")]
+txt[str_which(txt,"\\d{2}\\s?\\.\\s?\\d{2}\\s?\\.\\s?\\d{4}")]
 ```
 
 ```{r}
@@ -92,8 +126,11 @@ length(txt)
 ```{r}
 txt <- pdf_text("~/diesel_consumption/Scan 29.09.2018.pdf") %>% str_split("\n") 
 length(txt)
-#%>% .[[1]]
-#txt 
+txt <- txt %>% .[[1]]
+#txt[str_which(txt,"Datum")]
+#txt[str_which(txt,"TOTAL")]
+#txt[str_which(txt,"Liter")]
+txt[str_which(txt,"\\d{2}\\s?\\.\\s?\\d{2}\\s?\\.\\s?\\d{4}")]
 ```
 
 
@@ -105,5 +142,11 @@ txt
 ```{r}
 txt <- pdf_text("~/diesel_consumption/Scan 26.03.2019.pdf") %>% str_split("\n") 
 length(txt)
+txt <- txt %>% .[[1]]
+txt[str_which(txt,"Datum")]
+txt[str_which(txt,"TOTAL")]
+txt[str_which(txt,"Liter")]
+txt[str_which(txt,"\\d{2}\\s?\\.\\s?\\d{2}\\s?\\.\\s?\\d{4}")]
+txt
 ```
 
