@@ -150,3 +150,13 @@ txt[str_which(txt,"\\d{2}\\s?\\.\\s?\\d{2}\\s?\\.\\s?\\d{4}")]
 txt
 ```
 
+```{r}
+txt <- pdf_text("~/diesel_consumption/Scan 03.04.2019.pdf") %>% str_split("\n") 
+length(txt)
+txt <- txt %>% .[[1]]
+txt[str_which(txt,"Datum")]
+txt[str_which(txt,"TOTAL")]
+txt[str_which(txt,"Liter")]
+txt[str_which(txt,"\\d{2}\\s?\\.\\s?\\d{2}\\s?\\.\\s?\\d{4}")]
+txt
+```
