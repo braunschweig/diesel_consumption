@@ -44,7 +44,8 @@ s <- str_trim(s)
 
 Get all pages together.
 ```{r}
-tab <- map_df(txt, function(s){
+#str(txt)
+#tab <- map_df(txt, function(s){
   s <- str_trim(s)
   header_index <- str_which(s, "2015")[1]
   tmp <- str_split(s[header_index], "\\s+", simplify = TRUE)
@@ -60,12 +61,11 @@ tab <- map_df(txt, function(s){
     .[,1:5] %>%
     as_data_frame() %>% 
     setNames(c("day", header)) %>%
-    mutate(month = month,
-           day = as.numeric(day)) %>%
+    mutate(month = month,day = as.numeric(day)) %>%
     gather(year, deaths, -c(day, month)) %>%
     mutate(deaths = as.numeric(deaths))
-})
-tab
+#})
+#tab
 ```
 
 
@@ -79,84 +79,148 @@ First read in the pdf file which was created using "Adobe Scan" app.
 The scanned pdf file was already run through an OCR scanner in the app.
 
 ```{r}
-txt <- pdf_text("~/diesel_consumption/Scan 18.03.2019.pdf")%>% str_split("\n") #%>% .[[1]]
-length(txt)
-txt <- txt %>% .[[1]]
-txt[str_which(txt,"Datum")]
-txt[str_which(txt,"TOTAL")]
-txt[str_which(txt,"Liter")]
-txt[str_which(txt,"\\d{2}\\s?\\.\\s?\\d{2}\\s?\\.\\s?\\d{4}")] 
+txt <- pdf_text("~/diesel_consumption/Scan 13.03.2019 (1).pdf") %>% str_split("\n") 
+#str(txt)
+#txt <- txt %>% .[[2]]
+receipt <- function(txt) {
+  shop <- txt[1] %>% str_trim()
+  date <- max(str_extract(txt,"\\d{2}\\s?\\.\\s?\\d{2}\\s?\\.\\s?\\d{4}"), na.rm=TRUE)
+  time <- max(str_extract(txt,"\\d{2}\\s?\\:\\s?\\d{2}\\s?\\:\\s?\\d{2}"), na.rm=TRUE)
+  value <- max(str_extract(txt,"\\d{2}\\s?\\,\\s?\\d{2}\\s?\\EUR"), na.rm=TRUE)
+  liter <- max(str_extract(txt,"\\d{2}\\s?\\,\\s?\\d{2}\\s?\\Lite\\s?r"), na.rm=TRUE)
+  price <- max(str_extract(txt,"\\d{1}\\s?\\,\\s?\\d{3}\\s?\\EUR\\/Li\\s?ter"), na.rm=TRUE)  
+  c(date,value,liter,price,shop)
+}
+receipt_mat <- lapply(txt,receipt)
+str(receipt_mat)
+#receipt(txt)
+```
+
+```{r}
+txt <- pdf_text("~/diesel_consumption/Scan 18.03.2019.pdf") %>% str_split("\n") #%>% .[[1]]
+receipt <- function(txt) {
+  shop <- txt[1] %>% str_trim()
+  date <- max(str_extract(txt,"\\d{2}\\s?\\.\\s?\\d{2}\\s?\\.\\s?\\d{4}"), na.rm=TRUE)
+  time <- max(str_extract(txt,"\\d{2}\\s?\\:\\s?\\d{2}\\s?\\:\\s?\\d{2}"), na.rm=TRUE)
+  value <- max(str_extract(txt,"\\d{2}\\s?\\,\\s?\\d{2}\\s?\\EUR"), na.rm=TRUE)
+  liter <- max(str_extract(txt,"\\d{2}\\s?\\,\\s?\\d{2}\\s?\\Lite\\s?r"), na.rm=TRUE)
+  price <- max(str_extract(txt,"\\d{1}\\s?\\,\\s?\\d{3}\\s?\\EUR\\/Li\\s?ter"), na.rm=TRUE)  
+  c(date,value,liter,price,shop)
+}
+receipt_mat <- lapply(txt,receipt)
+str(receipt_mat)
 ```
 
 ```{r}
 txt <- pdf_text("~/diesel_consumption/Scan 13.03.2019 (2).pdf") %>% str_split("\n")# %>% .[[1]]
-length(txt)
-txt <- txt %>% .[[1]]
-#txt[str_which(txt,"Datum")]
-#txt[str_which(txt,"EUR")]
-#txt[str_which(txt,"EUR/Liter")]
-txt[str_which(txt,"\\d{2}\\s?\\.\\s?\\d{2}\\s?\\.\\s?\\d{4}")]
+receipt <- function(txt) {
+  shop <- txt[1] %>% str_trim()
+  date <- max(str_extract(txt,"\\d{2}\\s?\\.\\s?\\d{2}\\s?\\.\\s?\\d{4}"), na.rm=TRUE)
+  time <- max(str_extract(txt,"\\d{2}\\s?\\:\\s?\\d{2}\\s?\\:\\s?\\d{2}"), na.rm=TRUE)
+  value <- max(str_extract(txt,"\\d{2}\\s?\\,\\s?\\d{2}\\s?\\EUR"), na.rm=TRUE)
+  liter <- max(str_extract(txt,"\\d{2}\\s?\\,\\s?\\d{2}\\s?\\Lite\\s?r"), na.rm=TRUE)
+  price <- max(str_extract(txt,"\\d{1}\\s?\\,\\s?\\d{3}\\s?\\EUR\\/Li\\s?ter"), na.rm=TRUE)  
+  c(date,value,liter,price,shop)
+}
+receipt_mat <- lapply(txt,receipt)
+str(receipt_mat)
 ```
 
-```{r}
-txt <- pdf_text("~/diesel_consumption/Scan 13.03.2019 (1).pdf") %>% str_split("\n") 
-length(txt)
-#txt %>% .[[1]]
-```
+
 ```{r}
 txt <- pdf_text("~/diesel_consumption/Scan 13.03.2019 (3).pdf") %>% str_split("\n") 
-length(txt)
-#txt %>% .[[1]]
+receipt <- function(txt) {
+  shop <- txt[1] %>% str_trim()
+  date <- max(str_extract(txt,"\\d{2}\\s?\\.\\s?\\d{2}\\s?\\.\\s?\\d{4}"), na.rm=TRUE)
+  time <- max(str_extract(txt,"\\d{2}\\s?\\:\\s?\\d{2}\\s?\\:\\s?\\d{2}"), na.rm=TRUE)
+  value <- max(str_extract(txt,"\\d{2}\\s?\\,\\s?\\d{2}\\s?\\EUR"), na.rm=TRUE)
+  liter <- max(str_extract(txt,"\\d{2}\\s?\\,\\s?\\d{2}\\s?\\Lite\\s?r"), na.rm=TRUE)
+  price <- max(str_extract(txt,"\\d{1}\\s?\\,\\s?\\d{3}\\s?\\EUR\\/Li\\s?ter"), na.rm=TRUE)  
+  c(date,value,liter,price,shop)
+}
+receipt_mat <- lapply(txt,receipt)
+str(receipt_mat)
 ```
 
 ```{r}
 txt <- pdf_text("~/diesel_consumption/Scan 29.09.2018 (2).pdf") %>% str_split("\n") 
-length(txt)
-#%>% .[[1]]
-#txt 
+receipt <- function(txt) {
+  shop <- txt[1] %>% str_trim()
+  date <- max(str_extract(txt,"\\d{2}\\s?\\.\\s?\\d{2}\\s?\\.\\s?\\d{4}"), na.rm=TRUE)
+  time <- max(str_extract(txt,"\\d{2}\\s?\\:\\s?\\d{2}\\s?\\:\\s?\\d{2}"), na.rm=TRUE)
+  value <- max(str_extract(txt,"\\d{2}\\s?\\,\\s?\\d{2}\\s?\\EUR"), na.rm=TRUE)
+  liter <- max(str_extract(txt,"\\d{2}\\s?\\,\\s?\\d{2}\\s?\\Lite\\s?r"), na.rm=TRUE)
+  price <- max(str_extract(txt,"\\d{1}\\s?\\,\\s?\\d{3}\\s?\\EUR\\/Li\\s?ter"), na.rm=TRUE)  
+  c(date,value,liter,price,shop)
+}
+receipt_mat <- lapply(txt,receipt)
+str(receipt_mat)
 ```
 
 ```{r}
 txt <- pdf_text("~/diesel_consumption/Scan 29.09.2018 (1).pdf") %>% str_split("\n") 
-length(txt)
+receipt <- function(txt) {
+  shop <- txt[1] %>% str_trim()
+  date <- max(str_extract(txt,"\\d{2}\\s?\\.\\s?\\d{2}\\s?\\.\\s?\\d{4}"), na.rm=TRUE)
+  time <- max(str_extract(txt,"\\d{2}\\s?\\:\\s?\\d{2}\\s?\\:\\s?\\d{2}"), na.rm=TRUE)
+  value <- max(str_extract(txt,"\\d{2}\\s?\\,\\s?\\d{2}\\s?\\EUR"), na.rm=TRUE)
+  liter <- max(str_extract(txt,"\\d{2}\\s?\\,\\s?\\d{2}\\s?\\Lite\\s?r"), na.rm=TRUE)
+  price <- max(str_extract(txt,"\\d{1}\\s?\\,\\s?\\d{3}\\s?\\EUR\\/Li\\s?ter"), na.rm=TRUE)  
+  c(date,value,liter,price,shop)
+}
+receipt_mat <- lapply(txt,receipt)
+str(receipt_mat)
 #%>% .[[1]]
 #txt 
 ```
 
 ```{r}
 txt <- pdf_text("~/diesel_consumption/Scan 29.09.2018.pdf") %>% str_split("\n") 
-length(txt)
-txt <- txt %>% .[[1]]
-#txt[str_which(txt,"Datum")]
-#txt[str_which(txt,"TOTAL")]
-#txt[str_which(txt,"Liter")]
-txt[str_which(txt,"\\d{2}\\s?\\.\\s?\\d{2}\\s?\\.\\s?\\d{4}")]
+receipt <- function(txt) {
+  shop <- txt[1] %>% str_trim()
+  date <- max(str_extract(txt,"\\d{2}\\s?\\.\\s?\\d{2}\\s?\\.\\s?\\d{4}"), na.rm=TRUE)
+  time <- max(str_extract(txt,"\\d{2}\\s?\\:\\s?\\d{2}\\s?\\:\\s?\\d{2}"), na.rm=TRUE)
+  value <- max(str_extract(txt,"\\d{2}\\s?\\,\\s?\\d{2}\\s?\\EUR"), na.rm=TRUE)
+  liter <- max(str_extract(txt,"\\d{2}\\s?\\,\\s?\\d{2}\\s?\\Lite\\s?r"), na.rm=TRUE)
+  price <- max(str_extract(txt,"\\d{1}\\s?\\,\\s?\\d{3}\\s?\\EUR\\/Li\\s?ter"), na.rm=TRUE)  
+  c(date,value,liter,price,shop)
+}
+receipt_mat <- lapply(txt,receipt)
+str(receipt_mat)
 ```
 
-
-```{r}
-txt <- pdf_text("~/diesel_consumption/Tankprotokoll.pdf") %>% str_split("\n") %>% .[[1]]
-txt 
-```
 
 ```{r}
 txt <- pdf_text("~/diesel_consumption/Scan 26.03.2019.pdf") %>% str_split("\n") 
-length(txt)
-txt <- txt %>% .[[1]]
-txt[str_which(txt,"Datum")]
-txt[str_which(txt,"TOTAL")]
-txt[str_which(txt,"Liter")]
-txt[str_which(txt,"\\d{2}\\s?\\.\\s?\\d{2}\\s?\\.\\s?\\d{4}")]
-txt
+receipt <- function(txt) {
+  shop <- txt[1] %>% str_trim()
+  date <- max(str_extract(txt,"\\d{2}\\s?\\.\\s?\\d{2}\\s?\\.\\s?\\d{4}"), na.rm=TRUE)
+  time <- max(str_extract(txt,"\\d{2}\\s?\\:\\s?\\d{2}\\s?\\:\\s?\\d{2}"), na.rm=TRUE)
+  value <- max(str_extract(txt,"\\d{2}\\s?\\,\\s?\\d{2}\\s?\\EUR"), na.rm=TRUE)
+  liter <- max(str_extract(txt,"\\d{2}\\s?\\,\\s?\\d{2}\\s?\\Lite\\s?r"), na.rm=TRUE)
+  price <- max(str_extract(txt,"\\d{1}\\s?\\,\\s?\\d{3}\\s?\\EUR\\/Li\\s?ter"), na.rm=TRUE)  
+  c(date,value,liter,price,shop)
+}
+receipt_mat <- lapply(txt,receipt)
+str(receipt_mat)
 ```
 
 ```{r}
 txt <- pdf_text("~/diesel_consumption/Scan 03.04.2019.pdf") %>% str_split("\n") 
-length(txt)
-txt <- txt %>% .[[1]]
-txt[str_which(txt,"Datum")]
-txt[str_which(txt,"TOTAL")]
-txt[str_which(txt,"Liter")]
-txt[str_which(txt,"\\d{2}\\s?\\.\\s?\\d{2}\\s?\\.\\s?\\d{4}")]
-txt
+receipt <- function(txt) {
+  shop <- txt[1] %>% str_trim()
+  date <- max(str_extract(txt,"\\d{2}\\s?\\.\\s?\\d{2}\\s?\\.\\s?\\d{4}"), na.rm=TRUE)
+  time <- max(str_extract(txt,"\\d{2}\\s?\\:\\s?\\d{2}\\s?\\:\\s?\\d{2}"), na.rm=TRUE)
+  value <- max(str_extract(txt,"\\d{2}\\s?\\,\\s?\\d{2}\\s?\\EUR"), na.rm=TRUE)
+  liter <- max(str_extract(txt,"\\d{2}\\s?\\,\\s?\\d{2}\\s?\\Lite\\s?r"), na.rm=TRUE)
+  price <- max(str_extract(txt,"\\d{1}\\s?\\,\\s?\\d{3}\\s?\\EUR\\/Li\\s?ter"), na.rm=TRUE)  
+  c(date,value,liter,price,shop)
+}
+receipt_mat <- lapply(txt,receipt)
+str(receipt_mat)
+```
+
+```{r}
+txt <- pdf_text("~/diesel_consumption/Tankprotokoll.pdf") %>% str_split("\n") %>% .[[1]]
+txt 
 ```
