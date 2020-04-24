@@ -1,4 +1,4 @@
-# diesel_consumption
+# myDataSets
 
 I own a VW Golf 7 TDI and here is my analysis of the fuel receipts.
 
