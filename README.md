@@ -14,7 +14,7 @@ I own a VW Golf 7 TDI and here is my analysis of the fuel receipts.
 ## Fitness Tracker Timeline
 
 ## GDPR Tracker
- <iframe width="700" height="400" frameborder="0" allowfullscreen src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTloyHusdeJ0OhFAcfYD_le5tn1sj2qI_6P4buudqi0E4mQkiyrwV42KYfnVAOZumNiOMmDo6Hk6NWy/pubchart?oid=1978582858&amp;format=interactive"></iframe>
+<iframe width="886.5" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQcb2I6OsBVhX3u8bwrYr5HnPwVZ2kfLJi3I37KKjnG3hk95UWZlJkWM_I34ecq1ZayKNSAoxu4cjf4/pubchart?oid=845847393&amp;format=interactive"></iframe>
 
 <iframe width="1011.5" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQcb2I6OsBVhX3u8bwrYr5HnPwVZ2kfLJi3I37KKjnG3hk95UWZlJkWM_I34ecq1ZayKNSAoxu4cjf4/pubchart?oid=576391414&amp;format=interactive"></iframe>
 
