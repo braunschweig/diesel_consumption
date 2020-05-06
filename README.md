@@ -3,7 +3,7 @@
  
  [Website](https://braunschweig.github.io/mydatasets/)
 
- [Github](https://braunschweig.github.io/mydatasets/)
+ [Github](https://github.com/braunschweig/mydatasets)
 
 ## Diesel Consumption Data Set
 I own a VW Golf 7 TDI and here is my analysis of the fuel receipts.
