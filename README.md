@@ -21,6 +21,7 @@ VW Golf 7 TDI data points of fuel receipts
 
 
 ## Stromverbrauch
+Digit Recognizer	https://www.pyimagesearch.com/2017/02/13/recognizing-digits-with-opencv-and-python/
 
 ## Datenpunkte beim Hauskredit-Rechner und Brutto-Netto-Rechner
 
@@ -33,3 +34,6 @@ VW Golf 7 TDI data points of fuel receipts
 ## old-harddrives
 
 ## (Kontoauszüge)
+
+## Handy fernsteuern	
+https://www.fonemonitor.com/phone-spy/free-spy-app-for-android-undetectable.html
