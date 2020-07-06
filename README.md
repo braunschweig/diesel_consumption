@@ -34,6 +34,3 @@ Digit Recognizer	https://www.pyimagesearch.com/2017/02/13/recognizing-digits-wit
 ## old-harddrives
 
 ## (Kontoauszüge)
-
-## Handy fernsteuern	
-https://www.fonemonitor.com/phone-spy/free-spy-app-for-android-undetectable.html
